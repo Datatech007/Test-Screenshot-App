@@ -1,0 +1,8 @@
+libglib2.0-0
+libnss3
+libxss1
+libgdk-pixbuf2.0-0
+libatk1.0-0
+libatk-bridge2.0-0
+libcups2
+libnspr4
