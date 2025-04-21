@@ -1,26 +1,19 @@
 import streamlit as st
-import subprocess
-import os
+import requests
+from io import BytesIO
 
-st.set_page_config(page_title="Screenshots_Automation", layout="centered")
+st.title("Screenshot Automation")
 
-st.title("📸 Screenshots_Automation")
-st.write("This tool will automatically capture and save Looker Studio screenshots to your folders.")
+# Button to trigger screenshot generation
+if st.button("Generate Screenshot"):
+    st.write("Processing... Please wait.")
+    
+    # Call the Flask backend endpoint
+    response = requests.get("http://localhost:5000/screenshot")  # Update with the backend URL when deployed
 
-# Check if google_login.json exists
-if not os.path.exists("google_login.json"):
-    st.warning("⚠️ Missing 'google_login.json'. Please make sure it's in the same folder before running the automation.")
-
-if st.button("▶️ Run Screenshot Automation"):
-    with st.spinner("Running automation... This may take a couple of minutes."):
-        try:
-            # Run the script in a subprocess (you can replace this with importing and calling a function later)
-            result = subprocess.run(["python", "screenshot_automation.py"], capture_output=True, text=True)
-
-            if result.returncode == 0:
-                st.success("✅ Screenshots captured and saved successfully!")
-            else:
-                st.error("❌ Automation failed. See details below:")
-                st.code(result.stderr)
-        except Exception as e:
-            st.error(f"An unexpected error occurred: {e}")
+    if response.status_code == 200:
+        st.write("Screenshot generated successfully!")
+        # Display the generated screenshot
+        st.image(BytesIO(response.content), caption="Generated Screenshot")
+    else:
+        st.write("Error: Could not generate screenshot.")
