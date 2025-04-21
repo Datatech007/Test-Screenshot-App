@@ -1,15 +1,15 @@
 from flask import Flask, send_file
-from screenshot_automation import capture_screenshot  # Assuming this function runs the screenshot automation
+from screenshot_automation import capture_screenshot  # Assuming this is your screenshot function
 
 app = Flask(__name__)
 
 @app.route('/screenshot', methods=['GET'])
 def screenshot():
-    # Run your screenshot automation logic here
-    screenshot_path = capture_screenshot()  # This function returns the path of the generated screenshot
+    # Run the screenshot automation
+    screenshot_path = capture_screenshot()  # Assuming this returns the file path
     
-    # Send the screenshot back to the client
+    # Return the screenshot to the client
     return send_file(screenshot_path, mimetype='image/png')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)  # Make sure it's accessible externally
